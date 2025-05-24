@@ -28,8 +28,9 @@ export default function RootLayout({
       <body
         className={`${fontSans.variable} font-sans antialiased`}
       >
-        {children}
         <Header></Header>
+        {children}
+        
         <Footer></Footer>
       </body>
     </html>
