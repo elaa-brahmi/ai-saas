@@ -10,9 +10,10 @@ export default function  HeroSection(){
                      animate-gradient-x group ">
                         <Badge className="relative px-6 py-2 text-base font-medium bg-white
                         rounded-full group:hover:bg-gray-50 transition-colors duration-200">
-                        <Sparkles className="h-6 w-6 mr-2 text-rose-600 
-                        animate-pulse" />
-                        <p>Powered by AI</p></Badge>
+                            <Sparkles className="h-6 w-6 mr-2 text-rose-600 
+                            animate-pulse" />
+                            <p>Powered by AI</p>
+                        </Badge>
                     </div>
                 </div>
                 <h1>Transform PDFs into concise summaries</h1>
