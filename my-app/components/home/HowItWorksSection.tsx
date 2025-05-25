@@ -1,5 +1,6 @@
 import {ReactNode} from 'react'
-import {BrainCircuit, FileOutput, FileText} from 'lucide-react'
+import {BrainCircuit, FileOutput, FileText, MoveRight} from 'lucide-react'
+
 type Step={
     icon:ReactNode;
     title:string;
@@ -46,17 +47,26 @@ export default function HowItWorksSection(){
                     </div>
                     <div className="text-center mb-16 ">
                         <h2 className="font-bold text-xl uppercase mb-4 text-rose-500">HOW IT WORKS</h2>
-                        <h3 className="font-bold text-3xl  max-w-2xl mx-auto">Transform any PDF into an easy-to-digest <br></br>summary in three simple steps</h3>
+                        <h3 className="font-bold text-3xl  max-w-2xl mx-auto">Transform any PDF into an easy-to-digest <br></br>summary in three simple steps</h3></div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8
                         max-w-6xl mx-auto relative ">
                            {steps.map((step,index)=>(
-                            <StepItem key={index} {...step}/>
+                            <div key={index} className="relative flex items-stretch">
+                                <StepItem {...step}/>
+                              {index<steps.length-1 && (<div className="hidden  md:block absolute top-1/2
+                              
+                                -right-4 transform -translate-y-1/2 z-10"> 
+                                <MoveRight
+                                size={32}
+                                strokeWidth={1}
+                                className="text-rose-400"
+                                ></MoveRight>
+                                </div>
+                            )}
+                            </div>
                             ))}
                         </div>
                     </div>
-
-            </div>
-
         </section>
     );
 }
