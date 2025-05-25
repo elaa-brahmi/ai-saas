@@ -2,8 +2,15 @@ import Link from "next/link";
 import { FileText } from 'lucide-react';
 //import Button from "@/components/ui/button"
 import NavLink from "./nav-link";
+import {
+   
+    SignedIn,
+   
+    SignedOut,
+   
+    UserButton,
+  } from '@clerk/nextjs'
 export default function Header(){
-    const isLoggedIn=false;
     return <nav className="container flex items-center
     
     justify-between py-4 lg:px-8 px-2 mx-auto">
@@ -26,18 +33,27 @@ export default function Header(){
         lg:items-center
         ">
             <NavLink href="/#pricing">Pricing</NavLink>
-          {isLoggedIn && <Link href="/dashboard">your Summaries</Link>}
+            <SignedIn>
+                <Link href="/dashboard">your Summaries</Link>
+           </SignedIn>
 
         </div>
+        
         <div className="flex lg:justify-end lg:flex-1">
-           {isLoggedIn ? ( <div className="flex gap-2 items-center">
+          <SignedIn>
+          <div className="flex gap-2 items-center">
                 <NavLink href="/upload" >Upload a PDF</NavLink>
                 <div>Pro</div>
+                <SignedIn>
+                    <UserButton />
+                </SignedIn>
                
-            </div>):
-            (<div>
+            </div>
+            </SignedIn>
+
+            <SignedOut>
                 <NavLink href="/sign-in">Sign in</NavLink>
-            </div>)}
+            </SignedOut>
         </div>
     </nav>
 }
