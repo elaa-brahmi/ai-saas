@@ -3,7 +3,7 @@ export default function DemoSection(){
     return(
     <section className="relative">
         <div className="py-12 lg:py-24 max-w-5xl mx-auto sm:px-6
-        lg:px-8">
+        lg:px-8 lg:pt-12">
             
         
             <div
