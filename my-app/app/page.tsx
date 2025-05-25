@@ -1,5 +1,7 @@
 //import Image from "next/image";
 import HeroSection from '@/components/home/HeroSection'
+import DemoSection from '@/components/home/DemoSection'
+
 import BgGradient from '@/components/common/BgGradient'
 export default function Home() {
   return (
@@ -7,8 +9,9 @@ export default function Home() {
       <BgGradient/>
       <div className="flex flex-col">
         <HeroSection/>
+        <DemoSection/>
       </div>
-     {/*  <DemoSection/>
+     {/* 
       <HowItWorksSection/>
       <Pricing/>
       <CTA/> */}
