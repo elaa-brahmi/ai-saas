@@ -1,7 +1,9 @@
 //import Image from "next/image";
 import HeroSection from '@/components/home/HeroSection'
 import DemoSection from '@/components/home/DemoSection'
-import HowItWorksSection from '@/components/home/HowItWorksSection'
+import HowItWorksSection from '../components/home/HowItWorksSection'
+import Pricing from '../components/home/Pricing'
+
 
 
 import BgGradient from '@/components/common/BgGradient'
@@ -13,9 +15,10 @@ export default function Home() {
         <HeroSection/>
         <DemoSection/>
         <HowItWorksSection/>
+        <Pricing/>
       </div>
      {/* 
-      <HowItWorksSection/>
+     
       <Pricing/>
       <CTA/> */}
      
