@@ -55,6 +55,7 @@ export default function UploadForm() {
         }
         toast.info('Processing PDF - Hang tight! Our AI is reading through your document!');
         //parse the pdf using lang chain
+        
 
         //summarize the pdf using ai
         //save the summary to db
