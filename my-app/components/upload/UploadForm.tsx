@@ -18,9 +18,11 @@ const schema=z.object({
 export default function UploadForm() {
     const {startUpload}=useUploadThing('pdfUploader',{
         onClientUploadComplete:()=>{
+          
             toast.success('File uploaded successfully!');
         },
         onUploadError:() => {
+           
             toast.error('Failed to upload file. Please try again.');
         },
         onUploadBegin:({file})=>{
