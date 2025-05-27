@@ -3,7 +3,7 @@ import UploadFormInput from '@/components/upload/upload-form-input';
 import { useUploadThing } from '@/utils/uploadthing';
 import { toast } from 'sonner';
 import { z } from 'zod';
-
+import {generatePdfSummary} from '@/actions/uploadActions'
 const schema=z.object({
     file:z.instanceof(File,{message:'invalid file'}).
     refine((file)=>file.size<=20*1024*1024,
@@ -53,9 +53,11 @@ export default function UploadForm() {
             toast.error('Please try with another file');
             return;
         }
+        console.log("response file upload",resp);
         toast.info('Processing PDF - Hang tight! Our AI is reading through your document!');
         //parse the pdf using lang chain
-        
+        const summary=await generatePdfSummary(resp);
+        console.log("generated summary: ",summary);
 
         //summarize the pdf using ai
         //save the summary to db
