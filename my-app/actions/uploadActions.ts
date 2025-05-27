@@ -48,7 +48,7 @@ export async function generatePdfSummary(uploadResponse: {
         let summary;
         try{
             summary=await generateSummaryFromGemini(pdfText);
-            console.log(summary);
+            console.log({summary});
         }
         catch(error){
             console.log("failed to generate summary with gemini",error);

@@ -1,9 +1,10 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { SUMMARY_SYSTEM_PROMPT } from '../utils/prompts';
-
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
-
 export const generateSummaryFromGemini = async (pdfText: string) => {
+    if (!process.env.GEMINI_API_KEY) {
+        throw new Error("GEMINI_API_KEY is not defined in environment variables");
+    }
     try {
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro-002",
             generationConfig:{
@@ -11,8 +12,6 @@ export const generateSummaryFromGemini = async (pdfText: string) => {
                 maxOutputTokens:1500, //to not loose our credits
             },
          });
-
-
          const prompt = {
             contents: [
             {
@@ -35,12 +34,17 @@ export const generateSummaryFromGemini = async (pdfText: string) => {
         }
         return response.text();
         } 
-        catch (error: any){
-        if (error ?. status === 429) {
+        catch (error) {
+        console.error("Full error object:", error);
+        if (error instanceof Error) {
+            console.error("Error name:", error.name);
+            console.error("Error message:", error.message);
+            console.error("Error stack:", error.stack);
             
-        throw new Error("RATE_LIMIT_EXCEEDED");
+            if (error.message.includes('429')) {
+                throw new Error("RATE_LIMIT_EXCEEDED");
+            }
         }
-        console.error("Gemini API Error:", error); 
         throw error;
     }
 };
