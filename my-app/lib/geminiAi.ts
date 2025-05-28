@@ -6,7 +6,7 @@ export const generateSummaryFromGemini = async (pdfText: string) => {
         throw new Error("GEMINI_API_KEY is not defined in environment variables");
     }
     try {
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro-002",
+        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash",
             generationConfig:{
                 temperature:0.7,
                 maxOutputTokens:1500, //to not loose our credits

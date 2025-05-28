@@ -60,6 +60,7 @@ export default function UploadForm() {
         console.log("generated summary: ",summary);
 
         //summarize the pdf using ai
+        
         //save the summary to db
         //redirect to the [id] summary page
 
