@@ -42,6 +42,7 @@ export const generateSummaryFromGemini = async (pdfText: string) => {
             console.error("Error stack:", error.stack);
             
             if (error.message.includes('429')) {
+                console.log("RATE_LIMIT_EXCEEDED")
                 throw new Error("RATE_LIMIT_EXCEEDED");
             }
         }
