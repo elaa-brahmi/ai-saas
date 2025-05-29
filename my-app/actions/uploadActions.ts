@@ -139,14 +139,19 @@ export async function storePdfSummaryAction({
         const NewFormattedfileName = formatFileNameAsTitle(FormattedfileName);
         
         try {
-            await savedPDFsummary({
+            savedsummary= await savedPDFsummary({
                 userId,
                 fileUrl,
                 summary,
                 NewFormattedfileName,
                 fileName
             });
-            savedsummary=summary;
+            if(!savedsummary){
+                return{
+                    success:false,
+                    message:'failed to save PDF summary,please try again ...',
+                };
+            }
             revalidatePath(`/summaries/${savedsummary.id}`);//tells Next.js to clear its cache for the specified path and fetch fresh data
 
             
@@ -154,6 +159,7 @@ export async function storePdfSummaryAction({
                 success: true,
                 message: 'pdf summary saved',
                 data: {
+                    id:savedsummary.id,
                     title: FormattedfileName,
                     summary
                 },
