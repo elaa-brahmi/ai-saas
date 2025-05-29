@@ -64,7 +64,7 @@ export default function UploadForm() {
                 return;
             }
             console.log("response file upload",resp);
-            //parse the pdf using lang chain
+            //parse the pdf using lang chain+generate summary with gemini
             const result=await generatePdfSummary(resp);
             console.log("generated summary: ",result);
             const {data=null,message=null}=result || {};
@@ -74,6 +74,7 @@ export default function UploadForm() {
                 toast.info('Processing PDF - Hang tight! Our AI is reading through your document!');
             
             if(data.summary){
+                //store pdf summary to neon db
                 storeResult=await storePdfSummaryAction({
                     fileUrl: resp[0].ufsUrl,
                     summary: data.summary,
@@ -96,12 +97,6 @@ export default function UploadForm() {
     finally{
         setIsLoading(false);
     }
-
-
-        //summarize the pdf using ai
-        
-        //save the summary to db
-        //redirect to the [id] summary page
 
     };
     return(
