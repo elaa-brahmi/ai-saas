@@ -5,6 +5,7 @@ import {generateSummaryFromGemini} from '@/lib/geminiAi'
 import {auth} from '@clerk/nextjs/server';
 import {getDbConnection} from '@/lib/db'
 import {formatFileNameAsTitle} from '@/utils/format-utils'
+import { revalidatePath } from 'next/cache';
 export async function generatePdfSummary(uploadResponse: {
     serverData: {
         userId: string;
@@ -84,42 +85,40 @@ export async function savedPDFsummary({
     userId,
     fileUrl,
     summary,
-    title,
+    NewFormattedfileName,
     fileName
 }:{
     userId?: string;
     fileUrl: string;
     summary: string;
-    title: string;
+    NewFormattedfileName: string;
     fileName: string;
 }){
     //sql for inserting pdf summary
     try{
         const sql=await getDbConnection();
         await sql`
-        INSERT INTO pdf_summaries (user_id, original_file_url,
-         summary_text, title, file_name)
-        VALUES (
-        ${userId},
-        ${fileUrl},${summary},${title},${fileName}
+            INSERT INTO pdf_summaries (user_id, original_file_url,
+            summary_text, title, file_name)
+            VALUES (
+            ${userId},
+            ${fileUrl},${summary},${NewFormattedfileName},${fileName}
             );`;
-
+            
+        return true;
+    } catch(error) {
+        console.error('Database error in savedPDFsummary:', error);
+        throw error;
     }
-    catch(error){
-       throw error;
-       
-
-    }
-    
 }
 export async function storePdfSummaryAction({
-   fileUrl,summary,title,fileName
+   fileUrl,summary,FormattedfileName,fileName
 
 }:{
     userId?: string;
     fileUrl: string;
     summary: string;
-    title: string;
+    FormattedfileName: string;
     fileName: string;
 
 }
@@ -129,44 +128,52 @@ export async function storePdfSummaryAction({
     //save the pdf summary 
     let savedsummary:any;
     try{
-        const { userId }=await auth();
+        const { userId } = await auth();
         if(!userId){
             return {
                 success: false,
-                message: ' user not authenticated',
+                message: 'user not authenticated',
             };
-
         }
-        savedsummary=await savedPDFsummary({
-            userId,fileUrl,summary,title,fileName
-        });
-        if(!savedsummary){
+
+        const NewFormattedfileName = formatFileNameAsTitle(FormattedfileName);
+        
+        try {
+            await savedPDFsummary({
+                userId,
+                fileUrl,
+                summary,
+                NewFormattedfileName,
+                fileName
+            });
+            savedsummary=summary;
+            revalidatePath(`/summaries/${savedsummary.id}`);//tells Next.js to clear its cache for the specified path and fetch fresh data
+
             
             return {
-                success: false,
-                message: 'error saving pdf summary',
+                success: true,
+                message: 'pdf summary saved',
+                data: {
+                    title: FormattedfileName,
+                    summary
+                },
             };
 
+        } catch (dbError) {
+            console.error('Database error:', dbError);
+            return {
+                success: false,
+                message: 'error saving pdf summary to database',
+            };
         }
-        const FormattedfileName=formatFileNameAsTitle(fileName);
-        return {
-            success: true,
-            message: 'pdf summary saved',
-            data:{
-                title:FormattedfileName,
-                summary
-            },
-        };
-
-
-    }
-    catch(error){
-        console.log(error);
+    } catch(error) {
+        console.error('Authentication error:', error);
         return {
             success: false,
             message: 'error saving pdf summary',
         };
     }
+    //revalidate our cache
 }
 
 

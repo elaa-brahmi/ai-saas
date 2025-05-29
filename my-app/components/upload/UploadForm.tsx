@@ -4,6 +4,8 @@ import { useUploadThing } from '@/utils/uploadthing';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import {generatePdfSummary, storePdfSummaryAction} from '@/actions/uploadActions'
+import {useRef,useState} from 'react';
+import {useRouter} from 'next/navigation';
 const schema=z.object({
     file:z.instanceof(File,{message:'invalid file'}).
     refine((file)=>file.size<=20*1024*1024,
@@ -16,7 +18,10 @@ const schema=z.object({
 //create a file uploader 
  
 export default function UploadForm() {
-    const {startUpload}=useUploadThing('pdfUploader',{
+    const fromRef=useRef<HTMLFormElement>(null);
+    const [isLoading,setIsLoading]= useState(false);
+    const router=useRouter();
+    const {startUpload,routeConfig}=useUploadThing('pdfUploader',{
         onClientUploadComplete:()=>{
           
             toast.success('File uploaded successfully!');
@@ -32,6 +37,7 @@ export default function UploadForm() {
     const handleSubmit= async (e:React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
         console.log("submitted");
+        setIsLoading(true);
         const formData=new FormData(e.currentTarget);
         const file=formData.get('file') as File;
         //validation the fields
@@ -42,7 +48,9 @@ export default function UploadForm() {
                 validatedFields.error.flatten().fieldErrors.file?.[0] ?? 
                 'Invalid file'
             );
+            setIsLoading(false);
             return;
+
         }
         toast.info('Uploading PDF...');
             
@@ -51,6 +59,7 @@ export default function UploadForm() {
        
         if(!resp){
             toast.error('Please try with another file');
+            setIsLoading(false);
             return;
         }
         console.log("response file upload",resp);
@@ -67,10 +76,13 @@ export default function UploadForm() {
             storeResult=await storePdfSummaryAction({
                 fileUrl: resp[0].ufsUrl,
                 summary: data.summary,
-                title: resp[0].name,
+                FormattedfileName: resp[0].name,
                 fileName: file.name,
             });
-            toast.success('summary saved');
+            toast.success('summary generated');
+            fromRef.current?.reset();
+            //redirect the user to the [id] summary page
+            router.push(`/summaries/${storeResult.id}`);
         }
     }
 
@@ -82,7 +94,11 @@ export default function UploadForm() {
     }
     return(
         <div className="flex flex-col gap-8 max-w-2xl mx-auto">
-          <UploadFormInput onSubmit={handleSubmit}/>
+          <UploadFormInput
+            isLoading={isLoading}
+            ref={formRef}
+            onSubmit={handleSubmit}
+            />
         </div>
     )
 }
