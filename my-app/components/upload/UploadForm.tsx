@@ -18,7 +18,7 @@ const schema=z.object({
 //create a file uploader 
  
 export default function UploadForm() {
-    const fromRef=useRef<HTMLFormElement>(null);
+    const formRef=useRef<HTMLFormElement>(null);
     const [isLoading,setIsLoading]= useState(false);
     const router=useRouter();
     const {startUpload,routeConfig}=useUploadThing('pdfUploader',{
@@ -35,69 +35,82 @@ export default function UploadForm() {
         },
     });
     const handleSubmit= async (e:React.FormEvent<HTMLFormElement>)=>{
-        e.preventDefault();
-        console.log("submitted");
-        setIsLoading(true);
-        const formData=new FormData(e.currentTarget);
-        const file=formData.get('file') as File;
-        //validation the fields
-        const validatedFields=schema.safeParse({file});
-        //schema validation with zod
-        if(!validatedFields.success){
-            toast.error(
-                validatedFields.error.flatten().fieldErrors.file?.[0] ?? 
-                'Invalid file'
-            );
-            setIsLoading(false);
-            return;
+        try{
+            e.preventDefault();
+            console.log("submitted");
+            setIsLoading(true);
+            const formData=new FormData(e.currentTarget);
+            const file=formData.get('file') as File;
+            //validation the fields
+            const validatedFields=schema.safeParse({file});
+            //schema validation with zod
+            if(!validatedFields.success){
+                toast.error(
+                    validatedFields.error.flatten().fieldErrors.file?.[0] ?? 
+                    'Invalid file'
+                );
+                setIsLoading(false);
+                return;
 
-        }
-        toast.info('Uploading PDF...');
-            
-        //upload file to the uploadThing
-        const resp=await startUpload([file]);
-       
-        if(!resp){
-            toast.error('Please try with another file');
-            setIsLoading(false);
-            return;
-        }
-        console.log("response file upload",resp);
-        //parse the pdf using lang chain
-        const result=await generatePdfSummary(resp);
-        console.log("generated summary: ",result);
-        const {data=null,message=null}=result || {};
-        if(data){
-           
-            let storeResult:any;
-            toast.info('Processing PDF - Hang tight! Our AI is reading through your document!');
+            }
+            toast.info('Uploading PDF...');
+                
+            //upload file to the uploadThing
+            const resp=await startUpload([file]);
         
-        if(data.summary){
-            storeResult=await storePdfSummaryAction({
-                fileUrl: resp[0].ufsUrl,
-                summary: data.summary,
-                FormattedfileName: resp[0].name,
-                fileName: file.name,
-            });
-            toast.success('summary generated');
-            fromRef.current?.reset();
-            //redirect the user to the [id] summary page
-            router.push(`/summaries/${storeResult.id}`);
+            if(!resp){
+                toast.error('Please try with another file');
+                setIsLoading(false);
+                return;
+            }
+            console.log("response file upload",resp);
+            //parse the pdf using lang chain
+            const result=await generatePdfSummary(resp);
+            console.log("generated summary: ",result);
+            const {data=null,message=null}=result || {};
+            if(data){
+            
+                let storeResult:any;
+                toast.info('Processing PDF - Hang tight! Our AI is reading through your document!');
+            
+            if(data.summary){
+                storeResult=await storePdfSummaryAction({
+                    fileUrl: resp[0].ufsUrl,
+                    summary: data.summary,
+                    FormattedfileName: resp[0].name,
+                    fileName: file.name,
+                });
+                toast.success('summary generated');
+                formRef.current?.reset();
+                //redirect the user to the [id] summary page
+                router.push(`/summaries/${storeResult.id}`);
+            }
         }
     }
+    catch(error){
+        console.log("error occured",error);
+        formRef.current?.reset();
+        setIsLoading(false);
+
+    }
+    finally{
+        setIsLoading(false);
+    }
+
 
         //summarize the pdf using ai
         
         //save the summary to db
         //redirect to the [id] summary page
 
-    }
+    };
     return(
         <div className="flex flex-col gap-8 max-w-2xl mx-auto">
           <UploadFormInput
+            onSubmit={handleSubmit}
             isLoading={isLoading}
             ref={formRef}
-            onSubmit={handleSubmit}
+
             />
         </div>
     )
