@@ -22,7 +22,7 @@ export const generateSummaryFromGemini = async (pdfText: string) => {
             text: `Transform this document into an
             engaging, easy-to-read summary with
             contextually relevant emojis and proper
-            markdown formytting:\n\n${pdfText}`,
+            markdown formatting:\n\n${pdfText}`,
             
             },
             
