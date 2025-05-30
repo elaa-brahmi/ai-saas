@@ -4,10 +4,15 @@ import {Button} from '../ui/button'
 import {Dialog,DialogTrigger,DialogContent,DialogHeader,DialogTitle,DialogDescription,DialogFooter} from '@/components/ui/dialog'
 import { useState } from 'react'
 import {DeleteSummary} from '@/actions/summary-actions'
+import { toast } from "sonner"
 export default function DeleteButton({summaryId}:{summaryId:string}){
     const [open,setOpen]=useState(false);
     const handleDelete = async () => {
-        await DeleteSummary(summaryId);
+        const res=await DeleteSummary(summaryId);
+        if(!res){
+            toast.error('failed to delete summary');
+           
+        }
         //redirect to dashboard
         setOpen(false);
         

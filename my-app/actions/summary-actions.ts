@@ -12,7 +12,7 @@ export async function DeleteSummary(summaryId:string){
             redirect('/sign-in');
             throw new Error("user not found");
         }
-        const res= await sql`DELETE * FROM pdf_summaries WHERE id=${summaryId} AND user_id=${userId} RETURNING id ;`;
+        const res = await sql`DELETE FROM pdf_summaries WHERE id=${summaryId} AND user_id=${userId} RETURNING id`;
         //revalidate path
         if(res.length>0){
         revalidatePath(`/dashboard`);
