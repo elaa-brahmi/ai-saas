@@ -11,7 +11,7 @@ interface UploadFormProps{
 const UploadFormInput = forwardRef<HTMLFormElement, UploadFormProps>(
     ({onSubmit, isLoading}, ref) => {
     return(
-        <form className="flex flex-col gap-6" onSubmit={onSubmit} ref={ref}>
+        <form className="flex flex-col " onSubmit={onSubmit} ref={ref}>
             <div className="flex justify-end gap-1.5">
         <Input type="file" id="file" name="file"
         accept="application/pdf"

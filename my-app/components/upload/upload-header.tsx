@@ -3,7 +3,7 @@ import { Sparkles} from 'lucide-react'
 import {Badge} from '@/components/ui/badge'
 export default function UploadHeader(){
     return(
-        <section className="min-h-screen">
+        <section>
           <BgGradient/>
           <div className="mx-auto max-w-7xl px-6 py-2
                 sm:py-2 lg:px-8">
