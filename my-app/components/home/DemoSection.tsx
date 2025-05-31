@@ -1,5 +1,12 @@
+
 import {Pizza } from 'lucide-react'
-export default function DemoSection(){
+import SummaryViewer from '@/components/summaries/summary-viewer'
+import { getSummaryById } from '@/lib/summary';
+
+export default async function DemoSection(){
+   const summary=await getSummaryById('46bbe0ba-7aec-4176-8211-178f9d3b6461');
+
+
     return(
     <section className="relative">
         <div className="py-12 lg:py-24 max-w-5xl mx-auto sm:px-6
@@ -37,10 +44,11 @@ export default function DemoSection(){
                 </h3>
             </div>
             <div className="flex justify-center items-center px-2 sm:px-4 lg:px-6">
-                 {/*  <Summay/> */}
-            </div>
-            </div>
-        </div>
-    </section>
+         <SummaryViewer summary={summary.summary_text}/> 
+
+                </div>
+                </div></div></section>
+               
+          
 );
 }

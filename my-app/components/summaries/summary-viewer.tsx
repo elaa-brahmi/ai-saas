@@ -72,13 +72,7 @@ export default function SummaryViewer({summary}:{summary:string}){
                 <ContentSection
                 title={sections[currentSection]?.title || ''}
                 points={sections[currentSection]?.points || ''}/>
-                {/* <ul>
-                    {sections[currentSection]?.points.map((point,
-                        index)=>(
-                            <li key={index}>{point}</li>
-                        )
-                        )}
-                </ul> */}
+               
 
             </div>
 
