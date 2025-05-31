@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
 export default function ProgressBar({sections,currentSection}
     :{
-        sections:any[],
+        sections:Array<{title:string;points:string[]}>,
         currentSection:number
     }
 ){

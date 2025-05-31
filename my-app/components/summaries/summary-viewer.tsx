@@ -1,9 +1,17 @@
 "use client"
 import {useState} from 'react'
-import {Card,CardHeader,CardTitle,CardContent} from '@/components/ui/card'
+import {Card} from '@/components/ui/card'
 import {NavigationControls} from '@/components/summaries/NavigationControls'
 import ProgressBar from "@/components/summaries/progress-bar"
-const parseSection = (section: string) => {
+import ContentSection from "@/components/summaries/content-section"
+const SectionTitle=({title}:{title:string})=>{
+    return <div className="flex flex-col gap-2 mb-6 sticky top-0
+    pt-2 pb-4 bg-background/80 backdrop-blur-xs z-10">
+        <h2 className="text-3xl lg:text-4xl font-bold text-center flex-items-center
+        justify-center gap-2">{title}</h2>
+    </div>
+}
+const parseSection = (section: string):{title:string;points:string[]} => {
     const [title, ...content] = section.split('\n');
     const cleanTitle=title.startsWith('#') ? title.substring(1).trim():title.trim();
     const points:String[]=[];
@@ -60,14 +68,17 @@ export default function SummaryViewer({summary}:{summary:string}){
         <div className="h-full overflow-y-auto scrollbar-hide pt-12
         sm:pt-16 pb-20 sm:pb-24">
             <div className="px-4 sm:px-6">
-                <h2>{sections[currentSection]?.title || ''}</h2>
-                <ul>
+                <SectionTitle title={sections[currentSection]?.title || ''}/>
+                <ContentSection
+                title={sections[currentSection]?.title || ''}
+                points={sections[currentSection]?.points || ''}/>
+                {/* <ul>
                     {sections[currentSection]?.points.map((point,
                         index)=>(
                             <li key={index}>{point}</li>
                         )
                         )}
-                </ul>
+                </ul> */}
 
             </div>
 
