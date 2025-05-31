@@ -2,6 +2,7 @@
 import {useState} from 'react'
 import {Card,CardHeader,CardTitle,CardContent} from '@/components/ui/card'
 import {NavigationControls} from '@/components/summaries/NavigationControls'
+import ProgressBar from "@/components/summaries/progress-bar"
 const parseSection = (section: string) => {
     const [title, ...content] = section.split('\n');
     const cleanTitle=title.startsWith('#') ? title.substring(1).trim():title.trim();
@@ -44,7 +45,7 @@ export default function SummaryViewer({summary}:{summary:string}){
         
         return (
         <Card className="relative px-2
-        h-[500px] sm:h-[600px] lg:h-[700px]
+        h-[500px] sm:h-[550px] lg:h-[500px]
         w-full xl:w-[600px]
         overflow-hidden
         bg-linear-to-br from-background via-background/95
