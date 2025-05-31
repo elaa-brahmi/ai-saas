@@ -47,7 +47,7 @@ const EmojiPoint=({point}:{point:string})=>{
                     <div className="relative flex items-start gap-3">
                         <span className="text-lg lg:text-xl shrink-0
                         pt-1">{emoji}</span>
-                        <p className="text-lg lg:text-xl
+                        <p className="text-md lg:text-md
                         text-muted-foreground/90 leading-relaxed">
                         {text}
                         </p>

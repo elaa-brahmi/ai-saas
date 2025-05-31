@@ -53,8 +53,8 @@ export default function SummaryViewer({summary}:{summary:string}){
         
         return (
         <Card className="relative px-2
-        h-[500px] sm:h-[550px] lg:h-[500px]
-        w-full xl:w-[600px]
+        h-[450px] sm:h-[500px] lg:h-[500px]
+        w-full xl:w-[620px]
         overflow-hidden
         bg-linear-to-br from-background via-background/95
         to-rose-500/5
