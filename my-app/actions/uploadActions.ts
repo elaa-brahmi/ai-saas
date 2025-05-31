@@ -124,7 +124,6 @@ export async function storePdfSummaryAction({
 }
 ){
     // user is logged in  and has a userId
-
     //save the pdf summary 
     let savedsummary:any;
     try{
@@ -135,9 +134,7 @@ export async function storePdfSummaryAction({
                 message: 'user not authenticated',
             };
         }
-
         const NewFormattedfileName = formatFileNameAsTitle(FormattedfileName);
-        
         try {
             savedsummary= await savedPDFsummary({
                 userId,
@@ -153,8 +150,6 @@ export async function storePdfSummaryAction({
                 };
             }
             revalidatePath(`/summaries/${savedsummary.id}`);//tells Next.js to clear its cache for the specified path and fetch fresh data
-
-            
             return {
                 success: true,
                 message: 'pdf summary saved',

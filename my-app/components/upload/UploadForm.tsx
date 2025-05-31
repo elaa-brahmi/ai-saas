@@ -6,6 +6,7 @@ import { z } from 'zod';
 import {generatePdfSummary, storePdfSummaryAction} from '@/actions/uploadActions'
 import {useRef,useState} from 'react';
 import {useRouter} from 'next/navigation';
+import { redirect } from 'next/navigation';
 const schema=z.object({
     file:z.instanceof(File,{message:'invalid file'}).
     refine((file)=>file.size<=20*1024*1024,
@@ -16,18 +17,15 @@ const schema=z.object({
 ),
 }); //file object
 //create a file uploader 
- 
 export default function UploadForm() {
     const formRef=useRef<HTMLFormElement>(null);
     const [isLoading,setIsLoading]= useState(false);
-    const router=useRouter();
+   // const router=useRouter();
     const {startUpload,routeConfig}=useUploadThing('pdfUploader',{
         onClientUploadComplete:()=>{
-          
             toast.success('File uploaded successfully!');
         },
         onUploadError:() => {
-           
             toast.error('Failed to upload file. Please try again.');
         },
         onUploadBegin:({file})=>{
@@ -51,10 +49,8 @@ export default function UploadForm() {
                 );
                 setIsLoading(false);
                 return;
-
             }
-            toast.info('Uploading PDF...');
-                
+            toast.info('Uploading PDF...');     
             //upload file to the uploadThing
             const resp=await startUpload([file]);
         
@@ -84,7 +80,7 @@ export default function UploadForm() {
                 toast.success('summary generated');
                 formRef.current?.reset();
                 //redirect the user to the [id] summary page
-                router.push(`/summaries/${storeResult.data.id}`);
+                redirect(`/summaries/${storeResult.data.id}`);
             }
         }
     }
@@ -105,7 +101,6 @@ export default function UploadForm() {
             onSubmit={handleSubmit}
             isLoading={isLoading}
             ref={formRef}
-
             />
         </div>
     )

@@ -4,7 +4,7 @@ import SummaryViewer from '@/components/summaries/summary-viewer'
 import { getSummaryById } from '@/lib/summary';
 
 export default async function DemoSection(){
-   const summary=await getSummaryById('46bbe0ba-7aec-4176-8211-178f9d3b6461');
+   const summary=await getSummaryById('d456ca68-2409-49f7-b858-b981f01cbfae');
 
 
     return(

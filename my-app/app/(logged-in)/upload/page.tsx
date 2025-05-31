@@ -1,8 +1,6 @@
 import UploadHeader from '@/components/upload/upload-header';
 import UploadForm from '@/components/upload/UploadForm';
-
 import BgGradient from '@/components/common/BgGradient'
-
 export default function Upload() {
     return (
         <section className="min-h-screen">
