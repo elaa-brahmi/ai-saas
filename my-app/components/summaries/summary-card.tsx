@@ -5,6 +5,8 @@ import {FileText} from 'lucide-react';
 import { formatFileNameAsTitle } from '@/utils/format-utils';
 import { cn } from '@/lib/utils';
 import {formatDistanceToNow} from 'date-fns'
+import { MotionDiv, MotionH1, MotionH2, MotionH3, MotionSection,MotionSpan } from '../common/motion-wrapper'
+import {containerVariants, itemVariants} from '@/utils/constants'
 const SummaryHeader = ({
     fileUrl,
     title,
@@ -37,7 +39,15 @@ const SummaryHeader = ({
     }
 export default function SummaryCard({summary}:{summary:any}){
     return(
-        <div>
+            <MotionDiv
+             variants={itemVariants}
+             initial="hidden"
+             animate="visible"
+             whileHover={{ scale:1.05,
+                transition:{duration:0.2
+                    ,ease:'easeOut'
+                }
+              }}>
             <Card className="relative h-full">
                 <div className="absolute top-2 right-2">
                     <DeleteButton
@@ -62,6 +72,6 @@ export default function SummaryCard({summary}:{summary:any}){
                     </div>
                 </Link>
             </Card>
-        </div>
+        </MotionDiv>
     )
 }
