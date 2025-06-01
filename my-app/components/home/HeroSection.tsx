@@ -2,15 +2,31 @@ import {Button} from '../ui/button'
 import {ArrowRight, Sparkles} from 'lucide-react'
 import {Badge} from '@/components/ui/badge'
 import Link from 'next/link'
-
+import { MotionDiv, MotionH1, MotionH2, MotionSection,MotionSpan } from '../common/motion-wrapper'
+import {containerVariants, itemVariants} from '@/utils/constants'
+export const buttonnVariants={
+    scale:1.05,
+         transition:{
+             type:'spring',
+             damping:10,
+             stiffness:300
+         },
+     
+ }
 export default function HeroSection(){
     return(
-        <section className="relative mx-auto flex flex-col items-center justify-center z-0
+        <MotionSection 
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="relative mx-auto flex flex-col items-center justify-center z-0
         py-16 sm:py-20 lg:pb-28 transition-all animate-in lg:px-12 max-w-7xl
         ">
             
                
-                    <div className="relative p-[1px] overflow-hidden rounded-full
+                    <MotionDiv
+                    variants={itemVariants}
+                     className="relative p-[1px] overflow-hidden rounded-full
                      bg-gradient-to-r from-rose-200 via-rose-400 to-rose-600
                      animate-gradient-x group">
                         <Badge variant={'secondary'}
@@ -21,21 +37,29 @@ export default function HeroSection(){
                             animate-pulse" />
                             <span className="text-base text-rose-800">Powered by AI</span>
                         </Badge>
-                    </div>
+                    </MotionDiv>
             
-                <h1 className="font-bold py-6 text-center">
+                <MotionH1
+                variants={itemVariants}
+                className="font-bold py-6 text-center">
                 Transform PDFs into {' '}
                     <span className="relative inline-block">
-                        <span className="relative z-10 px-2"> concise</span> 
+                        <MotionSpan
+                        className="relative z-10 px-2"> concise</MotionSpan> 
                             <span className="absolute inset-0 bg-rose-200/50 -rotate-2 rounded-lg
                             transform -skew-y-1 " aria-hidden='true'>
                             </span> 
                     </span>{' '}summaries
-                </h1>
-                <h2 className="text-lg sm:text-xl lg:text-2xl text-center px-4 lg:px-0
+                </MotionH1>
+                <MotionH2
+                variants={itemVariants}
+                className="text-lg sm:text-xl lg:text-2xl text-center px-4 lg:px-0
                 lg:max-w-4xl text-gray-500
-                ">Get a beautiful reel of the document in seconds</h2>
-                <div>
+                ">Get a beautiful reel of the document in seconds</MotionH2>
+                <MotionDiv
+                variants={itemVariants}
+                whileHover={buttonnVariants}
+                >
                     <Button
                      variant={'link'}
                     className="w-50 text-white mt-6 text-base sm:text-lg
@@ -49,7 +73,7 @@ export default function HeroSection(){
                             <ArrowRight className="animate-pulse"/>
                        </Link>
                     </Button>
-                </div>
-        </section>
+                </MotionDiv>
+        </MotionSection>
     )
 }
