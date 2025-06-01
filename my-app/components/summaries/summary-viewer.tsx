@@ -4,6 +4,8 @@ import {Card} from '@/components/ui/card'
 import {NavigationControls} from '@/components/summaries/NavigationControls'
 import ProgressBar from "@/components/summaries/progress-bar"
 import ContentSection from "@/components/summaries/content-section"
+import { MotionDiv, MotionH1, MotionH2, MotionH3, MotionSection,MotionSpan } from '../common/motion-wrapper'
+import {containerVariants, itemVariants} from '@/utils/constants'
 const SectionTitle=({title}:{title:string})=>{
     return <div className="flex flex-col gap-2 mb-6 sticky top-0
     pt-2 pb-4 bg-background/80 backdrop-blur-xs z-10">
@@ -65,7 +67,13 @@ export default function SummaryViewer({summary}:{summary:string}){
         <ProgressBar
         sections={sections}
         currentSection={currentSection}/>
-        <div className="h-full overflow-y-auto scrollbar-hide pt-12
+        <MotionDiv
+        key={currentSection}
+        initial={{ opacity:0 }}
+        whileInView={{ opacity:1 }}
+        transition={{ duration:0.2,ease:'easeInOut'}}
+        exit={{ opacity:0 }}
+        className="h-full overflow-y-auto scrollbar-hide pt-12
         sm:pt-16 pb-20 sm:pb-24">
             <div className="px-4 sm:px-6">
                 <SectionTitle title={sections[currentSection]?.title || ''}/>
@@ -76,7 +84,7 @@ export default function SummaryViewer({summary}:{summary:string}){
 
             </div>
 
-        </div>
+        </MotionDiv>
 
         <NavigationControls
         currentSection={currentSection}

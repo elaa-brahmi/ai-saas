@@ -17,7 +17,7 @@ export const itemVariants={
             type:'spring',
             damping:15,
             stiffness:50,
-            duration:0.8
+            duration:0.9
 
         },
 

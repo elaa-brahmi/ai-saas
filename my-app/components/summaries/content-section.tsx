@@ -1,3 +1,6 @@
+import { MotionDiv, MotionH1, MotionH2, MotionH3, MotionSection,MotionSpan } from '../common/motion-wrapper'
+import {containerVariants, itemVariants} from '@/utils/constants'
+
 function parsePoint(point: string) {
     const isNumbered =/^\d+\./.test(point);
     const isMainPoint = /^●/.test(point);
@@ -33,8 +36,8 @@ const EmojiPoint=({point}:{point:string})=>{
     const {emoji,text} =parseEmojiPoint(point) ?? {}; 
     return(
     
-        <div 
-      
+        <MotionDiv 
+        variants={itemVariants}
             className="group relative bg-linear-to-br
              from-gray-200/[0.5] to-gray-400/[0.02]
             p-4 rounded-2xl border border-gray-500/10
@@ -52,21 +55,16 @@ const EmojiPoint=({point}:{point:string})=>{
                         {text}
                         </p>
                    </div>       
-        </div> 
+        </MotionDiv> 
 
     );
 };
 
-
-
-
-
-
 const RegularPoint=({point,key}:{point:string,key:number})=>{
     return(
     
-        <div 
-       
+        <MotionDiv 
+        variants={itemVariants} 
             className="group relative bg-linear-to-br
              from-gray-200/[0.5] to-gray-400/[0.02]
             p-4 rounded-2xl border border-gray-500/10
@@ -79,7 +77,7 @@ const RegularPoint=({point,key}:{point:string,key:number})=>{
                     <p className="relative text-lg lg:text-xl
                         text-muted-foreground/90 leading-relaxed text-left"> {point}  </p>
                   
-        </div> 
+        </MotionDiv> 
 
     );
 };
@@ -93,7 +91,13 @@ const RegularPoint=({point,key}:{point:string,key:number})=>{
     points: string[];
     }){
         return (
-        <div className="space-y-4">
+        <MotionDiv
+        variants={containerVariants}
+        key={points.join('')}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+        className="space-y-4">
        {points.map((point, index) => {
         const { isMainPoint, hasEmoji }=parsePoint(point);
 
@@ -103,6 +107,6 @@ const RegularPoint=({point,key}:{point:string,key:number})=>{
         return  <RegularPoint key={`point-${index}`}  point={point}  key={index} />
             
     })}
-        </div>
+        </MotionDiv>
     );
 }

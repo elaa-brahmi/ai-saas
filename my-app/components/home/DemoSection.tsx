@@ -53,6 +53,7 @@ export default async function DemoSection(){
                     easy-to-read summary!
                 </MotionH3>
             </div>
+            </div>
             <div className="flex justify-center items-center px-2 sm:px-4 lg:px-6">
                 <MotionDiv
                 initial={{ opacity:0 }}
@@ -62,7 +63,7 @@ export default async function DemoSection(){
                 </MotionDiv>
 
                 </div>
-                </div></div></MotionSection>
+                </div></MotionSection>
                
           
 );

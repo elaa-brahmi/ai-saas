@@ -1,6 +1,7 @@
 import {ReactNode} from 'react'
 import {BrainCircuit, FileOutput, FileText, MoveRight} from 'lucide-react'
-
+import { MotionDiv, MotionH1, MotionH2, MotionH3, MotionSection,MotionSpan } from '../common/motion-wrapper'
+import {containerVariants, itemVariants} from '@/utils/constants'
 type Step={
     icon:ReactNode;
     title:string;
@@ -46,24 +47,53 @@ export default function HowItWorksSection(){
                     />
                     </div>
                     <div className="text-center mb-16 ">
-                        <h2 className="font-bold text-xl uppercase mb-4 text-rose-500">HOW IT WORKS</h2>
-                        <h3 className="font-bold text-3xl  max-w-2xl mx-auto">Transform any PDF into an easy-to-digest <br></br>summary in three simple steps</h3></div>
+                        <MotionH2
+                        initial={{ opacity:0,y:20 }}
+                        whileInView={{ opacity:1,y:0 }}
+                        transition={{ 
+                            duration:0.5,
+                            ease:'easeInOut'
+                         }}
+                        className="font-bold text-xl uppercase mb-4 text-rose-500">HOW IT WORKS</MotionH2>
+                        <MotionH3
+                        initial={{ opacity:0,y:20 }}
+                        whileInView={{ opacity:1,y:0 }}
+                        transition={{ 
+                            duration:0.5,
+                            delay:0.2,
+                           
+                         }}
+                         className="font-bold text-3xl  max-w-2xl mx-auto">Transform any PDF into an easy-to-digest <br></br>summary in three simple steps</MotionH3></div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8
                         max-w-6xl mx-auto relative ">
                            {steps.map((step,index)=>(
-                            <div key={index} className="relative flex items-stretch">
+                            <MotionDiv
+                            initial={{ opacity:0,y:50 }}
+                            whileInView={{ opacity:1,y:0 }}
+                            transition={{ 
+                                duration:0.5,
+                                delay:index*0.2,
+                             }}
+                            key={index} className="relative flex items-stretch">
                                 <StepItem {...step}/>
-                              {index<steps.length-1 && (<div className="hidden  md:block absolute top-1/2
-                              
-                                -right-4 transform -translate-y-1/2 z-10"> 
-                                <MoveRight
-                                size={32}
-                                strokeWidth={1}
-                                className="text-rose-400"
-                                ></MoveRight>
-                                </div>
+                              {index<steps.length-1 && (
+                                <MotionDiv
+                                initial={{ opacity:0}}
+                            whileInView={{ opacity:1,y:0 }}
+                            transition={{ 
+                                duration:0.5,
+                                delay:index*0.2+0.3,
+                             }}
+                                className="hidden  md:block absolute top-1/2
+                                    -right-4 transform -translate-y-1/2 z-10"> 
+                                    <MoveRight
+                                    size={32}
+                                    strokeWidth={1}
+                                    className="text-rose-400"
+                                    ></MoveRight>
+                                </MotionDiv>
                             )}
-                            </div>
+                            </MotionDiv>
                             ))}
                         </div>
                     </div>
