@@ -2,13 +2,19 @@
 import {Pizza } from 'lucide-react'
 import SummaryViewer from '@/components/summaries/summary-viewer'
 import { getSummaryById } from '@/lib/summary';
+import { MotionDiv, MotionH1, MotionH2, MotionH3, MotionSection,MotionSpan } from '../common/motion-wrapper'
+import {containerVariants, itemVariants} from '@/utils/constants'
 
 export default async function DemoSection(){
    const summary=await getSummaryById('d456ca68-2409-49f7-b858-b981f01cbfae');
 
 
     return(
-    <section className="relative">
+    <MotionSection
+    variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+     className="relative">
         <div className="py-12 lg:py-24 max-w-5xl mx-auto sm:px-6
         lg:px-8 lg:pt-12">
             
@@ -35,19 +41,28 @@ export default async function DemoSection(){
                 <Pizza className="w-6 h-6 text-rose-500"/>
                 </div>
                 <div className="text-center mb-16">
-                <h3 className="font-bold text-3xl max-w-2xl mx-autopx-4 sm:px-6">
+                <MotionH3
+                initial={{ y:20,opacity:0 }}
+                whileInView={{ y:0,opacity:1 }}
+                transition={{ duration:0.5,delay:0.2 }}
+                className="font-bold text-3xl max-w-2xl mx-autopx-4 sm:px-6">
                     Watch how Sommaire transforms <span className="bg-linear-to-r from-rose-500 to-rose-700
                     bg-clip-text text-transparent"
                     >this Next.js course PDF{' '}</span> 
                     into an
                     easy-to-read summary!
-                </h3>
+                </MotionH3>
             </div>
             <div className="flex justify-center items-center px-2 sm:px-4 lg:px-6">
-         <SummaryViewer summary={summary.summary_text}/> 
+                <MotionDiv
+                initial={{ opacity:0 }}
+                whileInView={{ opacity:1 }}
+                transition={{ duration :0.5}}>
+                    <SummaryViewer summary={summary.summary_text}/> 
+                </MotionDiv>
 
                 </div>
-                </div></div></section>
+                </div></div></MotionSection>
                
           
 );

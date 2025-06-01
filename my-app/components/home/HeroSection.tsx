@@ -45,6 +45,7 @@ export default function HeroSection(){
                 Transform PDFs into {' '}
                     <span className="relative inline-block">
                         <MotionSpan
+                        whileHover={buttonnVariants}
                         className="relative z-10 px-2"> concise</MotionSpan> 
                             <span className="absolute inset-0 bg-rose-200/50 -rotate-2 rounded-lg
                             transform -skew-y-1 " aria-hidden='true'>
