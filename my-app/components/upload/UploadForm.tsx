@@ -6,7 +6,7 @@ import { z } from 'zod';
 import {generatePdfSummary, storePdfSummaryAction} from '@/actions/uploadActions'
 import {useRef,useState} from 'react';
 import {useRouter} from 'next/navigation';
-import { redirect } from 'next/navigation';
+import LoadingSkeleton from '@/components/upload/loading-skeleton'
 const schema=z.object({
     file:z.instanceof(File,{message:'invalid file'}).
     refine((file)=>file.size<=20*1024*1024,
@@ -21,7 +21,7 @@ export default function UploadForm() {
     const formRef=useRef<HTMLFormElement>(null);
     const [isLoading,setIsLoading]= useState(false);
     const router = useRouter();
-    const {startUpload,routeConfig}=useUploadThing('pdfUploader',{
+    const {startUpload}=useUploadThing('pdfUploader',{
         onClientUploadComplete:()=>{
             toast.success('File uploaded successfully!');
         },
@@ -96,12 +96,17 @@ export default function UploadForm() {
 
     };
     return(
+        <>
         <div className="flex flex-col gap-8 max-w-2xl mx-auto">
           <UploadFormInput
             onSubmit={handleSubmit}
             isLoading={isLoading}
             ref={formRef}
             />
+
         </div>
+        <LoadingSkeleton
+         isLoading={isLoading}/>
+        </>
     )
 }
