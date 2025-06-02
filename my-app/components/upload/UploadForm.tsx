@@ -20,7 +20,7 @@ const schema=z.object({
 export default function UploadForm() {
     const formRef=useRef<HTMLFormElement>(null);
     const [isLoading,setIsLoading]= useState(false);
-   // const router=useRouter();
+    const router = useRouter();
     const {startUpload,routeConfig}=useUploadThing('pdfUploader',{
         onClientUploadComplete:()=>{
             toast.success('File uploaded successfully!');
@@ -79,8 +79,8 @@ export default function UploadForm() {
                 });
                 toast.success('summary generated');
                 formRef.current?.reset();
-                //redirect the user to the [id] summary page
-                redirect(`/summaries/${storeResult.data.id}`);
+                // Use router.push instead of redirect
+                router.push('/dashboard');
             }
         }
     }
