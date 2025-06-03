@@ -4,7 +4,7 @@ export default function LoadingSkeleton({ isLoading }: { isLoading?: boolean }) 
             {isLoading && (
                 <div>
                     <h2 className="mt-5 text-center text-xl font-semibold text-pink-600 mb-4">
-                        Loading your summary
+                       Processing
                     </h2>
 
                     <div className="mt-7 lg:w-120 sm:w-100 md:w-120 flex justify-center items-center mx-auto animate-pulse">
