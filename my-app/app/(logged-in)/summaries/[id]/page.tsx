@@ -67,7 +67,7 @@ export default async function SummaryPage(props: {
                     {summary.word_count?.toLocaleString()} words
                 </div>
                 <div className="relative mt-8 sm:mt-6 flex justify-center">
-                     <SummaryViewer summary={summary.summary_text}/>
+                     <SummaryViewer summary={summary?.summary_text}/>
 
                 </div>
                 
