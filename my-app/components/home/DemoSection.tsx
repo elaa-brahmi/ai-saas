@@ -2,11 +2,11 @@
 import {Pizza } from 'lucide-react'
 import SummaryViewer from '@/components/summaries/summary-viewer'
 import { getSummaryById } from '@/lib/summary';
-import { MotionDiv, MotionH1, MotionH2, MotionH3, MotionSection,MotionSpan } from '../common/motion-wrapper'
-import {containerVariants, itemVariants} from '@/utils/constants'
+import { MotionDiv,  MotionH3, MotionSection } from '../common/motion-wrapper'
+import {containerVariants} from '@/utils/constants'
 
 export default async function DemoSection(){
-   const summary=await getSummaryById('d456ca68-2409-49f7-b858-b981f01cbfae');
+   const summary=await getSummaryById('7d0bca51-31e9-4813-a7a9-b8477f33303b');
 
 
     return(
@@ -60,7 +60,7 @@ export default async function DemoSection(){
                 whileInView={{ opacity:1 }}
                 transition={{ duration :0.5}}>
                     <SummaryViewer summary={summary.summary_text}/> 
-                </MotionDiv>
+                </MotionDiv> 
 
                 </div>
                 </div></MotionSection>
