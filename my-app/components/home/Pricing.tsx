@@ -4,15 +4,16 @@ import {ArrowRight, CheckIcon} from 'lucide-react'
 import { MotionDiv, MotionSection } from '../common/motion-wrapper';
 import { containerVariants, itemVariants } from '@/utils/constants';
 
+import {pricingPlans} from '@/lib/constants';
 
-type PriceType ={
+type PriceType = {
     name: string;
     price: number;
     description: string;
     items: string[];
     id: string;
-    paymentLink: string;
-    priceId: string;
+    paymentLink?: string;
+    priceId?: string;
 }
 const listVariants={
     hidden:{opacity:0,x:-20},//come from left to right
@@ -24,37 +25,7 @@ const listVariants={
     },
 
 };
-const plans = [
-    {
-        name: 'Basic',
-        price: 9,
-        description: 'Perfect for occasional use',
-        items: [
-        '5 PDF summaries per month',
-        'Standard processing speed',
-        'Email support',
-        ],
-        id: 'basic',
-        paymentLink:'',
-        priceId: '',
-        },
 
-    {
-        id:'pro',
-        name:'Pro',
-        price:19,
-        description: 'For professionals and teams',
-        items: [
-        'Unlimited PDF summaries',
-        'Priority processing',
-        '24/7 priority support',
-        'Markdown Export',
-        ],
-        paymentLink: '',
-        priceId: '',
-
-    },
-];
 const PricingCard=({name,price,description,items,id,paymentLink}:PriceType)=>{
     return(
         <MotionDiv
@@ -128,7 +99,7 @@ export default function Pricing(){
             </MotionDiv>
             <div className="relative flex justify-center flex-col
             lg:flex-row items-center lg:items-stretch gap-8">
-                {plans.map((plan)=>(
+                {pricingPlans.map((plan)=>(
                 <PricingCard key={plan.id} {...plan}/>
                 ))}
                 
