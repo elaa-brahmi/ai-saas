@@ -4,7 +4,7 @@ import {handleCheckoutSessionCompleted} from '@/lib/payments'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
-export const GET = async (req: NextRequest) => {
+export const GET = async () => {
     return NextResponse.json({
         status: 'Payments API is running',
         message: 'This endpoint handles Stripe webhook events via POST requests'
@@ -12,6 +12,7 @@ export const GET = async (req: NextRequest) => {
 }
 
 export const POST = async (req: NextRequest) => {
+    // Validate environment variables
     if (!process.env.STRIPE_SECRET_KEY || !process.env.STRIPE_WEBHOOK_SECRET) {
         return NextResponse.json({
             error: 'Stripe configuration is missing'
@@ -27,28 +28,31 @@ export const POST = async (req: NextRequest) => {
         }, { status: 400 });
     }
 
-    let event;
     const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
     
     try {
-        event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
+        // Verify the webhook signature
+        const event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
         
-        switch(event.type) {
-            case 'checkout.session.completed':
-                const sessionId = event.data.object.id;
-                const session=await stripe.checkout.sessions.retrieve(sessionId,{
-                expand:['line_items']
+        // Create response
+        const response = new NextResponse(JSON.stringify({ status: 'success' }), {
+            status: 200,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
 
-                }); //get more infos about the session to get infos about the customer and insert it
-                await handleCheckoutSessionCompleted({session,stripe})
-                break;
-            case 'customer.subscription.deleted':
-                const subscription = event.data.object;
-                console.log(subscription);
-                break;
-            default:
-                console.log(`Unhandled event type ${event.type}`);
-        }
+        // Send response immediately
+        response.headers.set('Connection', 'close');
+        
+        // Process the event after response is sent
+        setTimeout(() => {
+            processEvent(event).catch(error => {
+                console.error('Error processing webhook event:', error);
+            });
+        }, 0);
+
+        return response;
     } catch (err) {
         console.error('Webhook error:', err);
         return NextResponse.json({
@@ -56,8 +60,27 @@ export const POST = async (req: NextRequest) => {
             details: err instanceof Error ? err.message : 'Unknown error'
         }, { status: 400 });
     }
+}
 
-    return NextResponse.json({
-        status: 'success'
-    });
+async function processEvent(event: Stripe.Event) {
+    try {
+        switch(event.type) {
+            case 'checkout.session.completed':
+                const sessionId = event.data.object.id;
+                const session = await stripe.checkout.sessions.retrieve(sessionId, {
+                    expand: ['line_items']
+                });
+                await handleCheckoutSessionCompleted({session, stripe});
+                break;
+            case 'customer.subscription.deleted':
+                const subscription = event.data.object;
+                console.log('Subscription deleted:', subscription.id);
+                break;
+            default:
+                console.log(`Unhandled event type ${event.type}`);
+        }
+    } catch (error) {
+        console.error('Error in processEvent:', error);
+        // You might want to implement retry logic here or send to a dead letter queue
+    }
 }
