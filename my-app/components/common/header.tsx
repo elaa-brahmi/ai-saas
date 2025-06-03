@@ -11,13 +11,10 @@ import {
    
     UserButton,
   } from '@clerk/nextjs'
-import { currentUser} from '@clerk/nextjs/server';
-import { hasReachedUploadLimit } from "@/lib/user";
+
 
 export default async function Header(){
-    const user=await currentUser();
-    const userId=user?.id;
-    const {hasReachedLimit,uploadLimit}= await hasReachedUploadLimit(userId);
+   
     return <nav className="container flex items-center
     
     justify-between py-4 lg:px-8 px-2 mx-auto">
@@ -49,7 +46,7 @@ export default async function Header(){
         <div className="flex lg:justify-end lg:flex-1">
           <SignedIn>
           <div className="flex gap-2 items-center">
-          {!hasReachedLimit &&(  <NavLink href="/upload" >Upload a PDF</NavLink>)}
+        <NavLink href="/upload" >Upload a PDF</NavLink>
                 <PlanBadge/>
                 <SignedIn>
                     <UserButton />
