@@ -42,6 +42,37 @@ export async function handleCheckoutSessionCompleted({session,stripe}:{session:S
     }
 }
 
+export async function handleSubscriptionDeleted({
+    subscriptionId,
+    stripe
+}: {
+    subscriptionId: string;
+    stripe: Stripe;
+}) {
+    console.log('subscription deleted');
+    try {
+        // Retrieve the subscription
+        const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+        const sql = await getDbConnection();
+        
+        if (!sql) {
+            throw new Error('Failed to get database connection');
+        }
+
+        // Update user status to cancelled
+        await sql`
+            UPDATE users 
+            SET status = 'cancelled' 
+            WHERE customer_id = ${subscription.customer}
+        `;
+        
+        console.log('Successfully updated user status to cancelled');
+    } catch (error) {
+        console.error('Error deleting subscription:', error);
+        throw error;
+    }
+}
+
 async function createOrUpdateUser({
     sql,
     email,
