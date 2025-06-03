@@ -9,6 +9,7 @@ import {redirect} from 'next/navigation';
 import { MotionDiv, MotionH1 } from '@/components/common/motion-wrapper'
 import {itemVariants} from '@/utils/constants'
 import { MotionP } from "@/components/common/motion-wrapper";
+import { hasReachedUploadLimit } from "@/lib/user";
 
 type Summary = {
     id: string;
@@ -20,10 +21,11 @@ type Summary = {
 };
 
 export default async function DashboardPage(){
-    const uploadLimit=5;
     const user=await currentUser();
     const userId=user?.id;
     if(!userId) return redirect('/sign-in')
+    const {hasReachedLimit,uploadLimit}= await hasReachedUploadLimit(userId);
+
     const summaries=await getSummaries(userId);
     return (
     <main className="min-h-screen">
@@ -47,7 +49,7 @@ export default async function DashboardPage(){
                             Transform your PDFs into concise, actionable insights
                         </MotionP>
                     </div>
-                    <MotionDiv
+                    {!hasReachedLimit &&( <MotionDiv
                         variants={itemVariants}
                         initial="hidden"
                         animate="visible"
@@ -63,9 +65,9 @@ export default async function DashboardPage(){
                                 New Summary
                             </Link>
                         </Button>
-                    </MotionDiv>
+                    </MotionDiv>)}
                 </div>
-                <MotionDiv
+              {hasReachedLimit &&(  <MotionDiv
                     variants={itemVariants}
                     initial="hidden"
                     animate="visible"
@@ -81,7 +83,7 @@ export default async function DashboardPage(){
                             <ArrowRight className="w-4 h-4 inline-block"/>{' '} for unlimited uploads
                         </p>
                     </div>
-                </MotionDiv>
+                </MotionDiv>)}
                 {summaries.length === 0 ? (
                     <div className="text-center space-y-4">
                         <div className="flex justify-center">
