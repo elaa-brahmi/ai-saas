@@ -1,6 +1,6 @@
 export default function Header(){
     return(
-        <footer className="bg-linear-to-r from-rose-50 to-rose-50 text-center text-lg">
+        <footer className="mt-5 bg-linear-to-r from-rose-50 to-rose-50 text-center text-lg">
        
         <div className="text-center p-3 bg-black/5">
           © 2025 Copyright:{' '}
