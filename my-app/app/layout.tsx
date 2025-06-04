@@ -18,6 +18,19 @@ const fontSans = FontSans({
 export const metadata: Metadata = {
   title: "sommaire",
   description: "sommaire is an app for summarizing pdf articles",
+  openGraph:{
+    images:[
+      {
+      url:'/nextjsOpenImg.jpg'
+
+      },
+    ]
+
+  },
+  metadataBase:new URL('https://ai-saas-git-main-elaa-brahmis-projects.vercel.app/'),
+  alternates:{
+    canonical:'https://ai-saas-git-main-elaa-brahmis-projects.vercel.app/',
+  }
 };
 
 export default function RootLayout({
