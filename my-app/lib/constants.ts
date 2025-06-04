@@ -9,7 +9,7 @@ export const pricingPlans = [
         'Email support',
         ],
         id: 'basic',
-        paymentLink:process.env.NODE_ENV==='development'?process.env.BASIC_PLAN_URL:'',
+        paymentLink:process.env.BASIC_PLAN_URL || '/#pricing',
         priceId: process.env.PRICE_ID_BASIC,
         },
 
@@ -24,7 +24,7 @@ export const pricingPlans = [
         '24/7 priority support',
         'Markdown Export',
         ],
-        paymentLink: process.env.NODE_ENV==='development'?process.env.PRO_PLAN_URL:'',
+        paymentLink:process.env.PRO_PLAN_URL || '/#pricing',
         priceId: process.env.PRICE_ID_PRO,
 
     },

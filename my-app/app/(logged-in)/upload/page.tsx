@@ -9,7 +9,7 @@ export default async function Upload() {
     const user=await currentUser();
     const userId=user?.id;
     if(!userId) redirect('/sign-in');
-    const {hasReachedLimit,uploadLimit}= await hasReachedUploadLimit(userId);
+    const {hasReachedLimit,uploadLimit}= await hasReachedUploadLimit(user);
     if(hasReachedLimit){
         redirect('/dashboard');
     }

@@ -12,7 +12,7 @@ type PriceType = {
     description: string;
     items: string[];
     id: string;
-    paymentLink?: string;
+    paymentLink: string;
     priceId?: string;
 }
 const listVariants={
@@ -27,6 +27,9 @@ const listVariants={
 };
 
 const PricingCard=({name,price,description,items,id,paymentLink}:PriceType)=>{
+    if (!paymentLink) {
+        return null; // Don't render the card if there's no payment link
+    }
     return(
         <MotionDiv
         variants={listVariants}
@@ -38,8 +41,6 @@ const PricingCard=({name,price,description,items,id,paymentLink}:PriceType)=>{
              id === 'pro' && 'border-rose-500 gap-5 border-2'
             )}
             >
-
-
                 <MotionDiv
                 variants={listVariants} className="flex justify-between items-center gap-4">
                     <p className="text-lg lg:text-xl font-bold capitalize">{name}</p>
