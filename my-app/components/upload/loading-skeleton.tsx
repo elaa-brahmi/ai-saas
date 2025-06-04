@@ -3,7 +3,7 @@ export default function LoadingSkeleton({ isLoading }: { isLoading?: boolean }) 
         <>
             {isLoading && (
                 <div>
-                    <h2 className="mt-5 text-center text-xl font-semibold text-pink-600 mb-4">
+                    <h2 className="mt-5 text-center text-xl font-semibold text-pink-900 mb-4">
                        Processing
                     </h2>
 
