@@ -21,11 +21,12 @@ export const metadata: Metadata = {
   openGraph:{
     images:[
       {
-      url:'/nextjsOpenImg.jpg'
-
+        url: '/nextjsOpenImg.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Sommaire - PDF Article Summarizer'
       },
     ]
-
   },
   metadataBase:new URL('https://ai-saas-git-main-elaa-brahmis-projects.vercel.app/'),
   alternates:{
