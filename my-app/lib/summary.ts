@@ -2,6 +2,9 @@ import {getDbConnection} from '@/lib/db'
 export async function getSummaryById(id: string) {
     try{
     const sql = await getDbConnection();
+    if(!sql){
+        throw new Error('Failed to get database connection');
+    }
     const [summary] = await sql`SELECT id,
         user_id,
         title,

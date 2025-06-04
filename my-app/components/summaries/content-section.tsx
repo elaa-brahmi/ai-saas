@@ -60,7 +60,7 @@ const EmojiPoint=({point}:{point:string})=>{
     );
 };
 
-const RegularPoint=({point,key}:{point:string,key:number})=>{
+const RegularPoint=({point,key}:{point:string,key:string})=>{
     return(
     
         <MotionDiv 
@@ -102,9 +102,9 @@ const RegularPoint=({point,key}:{point:string,key:number})=>{
         const { isMainPoint, hasEmoji }=parsePoint(point);
 
         if (hasEmoji || isMainPoint){
-        return <EmojiPoint key={`point-${index}`}  point={point}  key={index} />
+        return <EmojiPoint key={`point-${index}`}  point={point}  />
         }
-        return  <RegularPoint key={`point-${index}`}  point={point}  key={index} />
+        return  <RegularPoint key={`point-${index}`}  point={point}   />
             
     })}
         </MotionDiv>

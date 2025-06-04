@@ -28,8 +28,8 @@ export default function UploadForm() {
         onUploadError:() => {
             toast.error('Failed to upload file. Please try again.');
         },
-        onUploadBegin:({file})=>{
-            console.log('upload has begun for',file);
+        onUploadBegin:(fileName)=>{
+            console.log('upload has begun for', fileName);
         },
     });
     const handleSubmit= async (e:React.FormEvent<HTMLFormElement>)=>{

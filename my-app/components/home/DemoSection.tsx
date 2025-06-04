@@ -59,7 +59,7 @@ export default async function DemoSection(){
                 initial={{ opacity:0 }}
                 whileInView={{ opacity:1 }}
                 transition={{ duration :0.5}}>
-                    <SummaryViewer summary={summary.summary_text}/> 
+                    <SummaryViewer summary={summary?.summary_text}/> 
                 </MotionDiv> 
 
                 </div>

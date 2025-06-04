@@ -37,7 +37,7 @@ const parseSection = (section: string):{title:string;points:string[]} => {
     if(currentPoint) points.push(currentPoint.trim());
     return { title:cleanTitle, points:points.filter((point)=>
         point && !point.startsWith('#') && !point.startsWith('[Choose')
-    ) };
+    ) as string[] };
 }
 export default function SummaryViewer({summary}:{summary:string}){
     const [currentSection,setCurrentSection]=useState(0);

@@ -31,6 +31,9 @@ export async function hasReachedUploadLimit(user:User){
 export async function getUserUploadCount(userId:string){
     try{
     const sql=await getDbConnection();
+    if(!sql){
+        throw new Error('Failed to get database connection');
+    }
     const res=await sql`SELECT COUNT(*) as count FROM pdf_summaries WHERE user_id=${userId}`;
     return res[0].count;
     }
@@ -42,6 +45,9 @@ export async function getUserUploadCount(userId:string){
 export async function HasActiveSub(user:User){
     const sql=await getDbConnection();
     const email=user.emailAddresses[0].emailAddress;
+    if(!sql){
+        throw new Error('Failed to get database connection');
+    }
     const res=await sql`SELECT price_id FROM users WHERE email=${email} 
     AND status='active' AND price_id IS NOT NULL`;
     return res && res.length>0;

@@ -26,7 +26,7 @@ export default async function DashboardPage(){
     if(!userId) return redirect('/sign-in')
     const {hasReachedLimit,uploadLimit}= await hasReachedUploadLimit(user);
 
-    const summaries=await getSummaries(userId);
+    const summaries = (await getSummaries(userId) || []) as Summary[];
     return (
     <main className="min-h-screen">
         <BgGradient className="from-emerald-200 via-teal-200 to-cyan-200"/>
